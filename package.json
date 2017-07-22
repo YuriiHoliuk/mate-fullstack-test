@@ -1,0 +1,27 @@
+{
+  "name": "mate-fullstack-test",
+  "version": "1.0.0",
+  "description": "test task on nodejs and angular",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriiHoliuk/mate-fullstack-test.git"
+  },
+  "keywords": [
+    "nodejs",
+    "angular",
+    "test task",
+    "star wars",
+    "ping",
+    "mate academy"
+  ],
+  "author": "YuriiHoliuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YuriiHoliuk/mate-fullstack-test/issues"
+  },
+  "homepage": "https://github.com/YuriiHoliuk/mate-fullstack-test#readme"
+}
