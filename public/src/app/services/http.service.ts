@@ -14,12 +14,12 @@ export class HttpService {
 
   post(url: string, data: Object) {
     return this.http
-      .post(url, JSON.stringify(data), {headers: this.headers, withCredentials: true});
+      .post(url, JSON.stringify(data), {headers: this.headers});
   }
 
   get(url: string) {
     return this.http
-      .get(url, {headers: this.headers, withCredentials: true});
+      .get(url, {headers: this.headers});
   }
 
 }

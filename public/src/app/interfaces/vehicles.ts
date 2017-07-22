@@ -1,4 +1,4 @@
-export interface IVenichle {
+export interface IVehicle {
   name: string;
   model: string;
 }

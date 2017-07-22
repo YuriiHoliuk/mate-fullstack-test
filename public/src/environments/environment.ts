@@ -4,5 +4,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: {
+    base: 'http://swapi.co/api/',
+    people: 'people/',
+    planets: 'planets/',
+    species: 'species/',
+    vehicles: 'vehicles/',
+    starships: 'starships/',
+    films: 'films/',
+  }
 };

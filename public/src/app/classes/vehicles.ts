@@ -1,6 +1,6 @@
-import {IVenichle} from '../interfaces';
+import {IVehicle} from '../interfaces';
 
-export class Venichle implements IVenichle {
+export class Vehicle implements IVehicle {
 
   public name: string;
   public model: string;

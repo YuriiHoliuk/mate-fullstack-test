@@ -10,7 +10,7 @@ export class Hero implements IHero {
   public homeworld: string;
   public films: string[];
   public species: string;
-  public venichles: string[];
+  public vehicles: string[];
   public starships: string[];
 
   constructor(hero: any) {
@@ -22,7 +22,7 @@ export class Hero implements IHero {
     this.homeworld = hero.homeworld;
     this.films = hero.films;
     this.species = hero.species[0];
-    this.venichles = hero.venichles;
+    this.vehicles = hero.venichles;
     this.starships = hero.starships;
   }
 }

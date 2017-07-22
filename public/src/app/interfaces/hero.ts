@@ -7,6 +7,6 @@ export interface IHero {
   homeworld: string;
   films: string[];
   species: string;
-  venichles: string[];
+  vehicles: string[];
   starships: string[];
 }
