@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   private hero$: Observable<Hero>;
   private heroesCount: number;
+  private heroId: number;
 
   constructor(private api: ApiService) {
   }
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
     this.hero$ = this.api.subscribeHero();
 
     this.api.getCount().subscribe(count => this.heroesCount = count);
+    this.api.getHeroId().subscribe(id => {
+      this.heroId = id;
+      this.api.getHero(this.heroId);
+    });
     this.hero$.subscribe(hero => console.log(hero));
-    this.api.getHero(20);
   }
 }

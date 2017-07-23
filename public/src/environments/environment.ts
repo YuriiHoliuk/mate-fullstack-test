@@ -13,5 +13,9 @@ export const environment = {
     vehicles: 'vehicles/',
     starships: 'starships/',
     films: 'films/',
+  },
+  localeStorage: {
+    key: 'swapi',
+    timeout: 1000 * 20 // 20 seconds
   }
 };

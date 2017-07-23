@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from './http.service';
+import {HttpService, StorageService} from './';
 import {Subject} from 'rxjs/Subject';
 import {Hero, Planet, Species, Starship, Vehicle, Film} from '../classes';
 import {environment} from '../../environments/environment';
@@ -21,14 +21,23 @@ export class ApiService {
   private hero: Subject<Hero>;
   private hero$: Observable<Hero>;
   private herosCount: number;
-  private _herosCount: Subject<number>;
+  private _herosCount: ReplaySubject<number>;
   private herosCount$: Observable<number>;
+  private currentHero: number;
+  private _currentHero: ReplaySubject<number>;
+  private currentHero$: Observable<number>;
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService,
+              private storage: StorageService) {
     this.baseUrl = environment.api.base;
 
     this._herosCount = new ReplaySubject(1);
     this.herosCount$ = this._herosCount.asObservable();
+
+    this._currentHero = new ReplaySubject(1);
+    this.currentHero$ = this._currentHero.asObservable();
+    this.currentHero = this.storage.read().lastHero;
+    this._currentHero.next(this.currentHero);
 
     this.hero = new Subject();
     this.hero$ = this.hero.asObservable();
@@ -38,8 +47,12 @@ export class ApiService {
     return this.hero$;
   }
 
+  public getHeroId(): Observable<number> {
+    return this.currentHero$;
+  }
+
   public getHero(id): void {
-    if ( this.herosCount && id > this.herosCount) {
+    if (this.herosCount && id > this.herosCount) {
       return;
     }
 
@@ -83,9 +96,9 @@ export class ApiService {
       })
       .subscribe(
         person => {
-          console.log(person);
           const hero = new Hero(person);
           this.hero.next(hero);
+          this.storage.write(id);
         },
         error => {
           console.error(error);
