@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class HttpService {
@@ -12,12 +13,12 @@ export class HttpService {
     this.headers.append('x-requested-with', 'XMLHttpRequest');
   }
 
-  post(url: string, data: Object) {
+  post(url: string, data: Object): Observable<any> {
     return this.http
       .post(url, JSON.stringify(data), {headers: this.headers});
   }
 
-  get(url: string) {
+  get(url: string): Observable<any> {
     return this.http
       .get(url, {headers: this.headers});
   }

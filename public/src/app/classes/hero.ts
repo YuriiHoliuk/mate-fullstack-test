@@ -1,4 +1,5 @@
 import {IHero} from '../interfaces';
+import {Planet, Species, Vehicle, Starship, Film} from './';
 
 export class Hero implements IHero {
 
@@ -7,11 +8,11 @@ export class Hero implements IHero {
   public birth_year: string;
   public height: number;
   public mass: number;
-  public homeworld: string;
-  public films: string[];
-  public species: string;
-  public vehicles: string[];
-  public starships: string[];
+  public homeworld: Planet;
+  public films: Film[];
+  public species: Species;
+  public vehicles: Vehicle[];
+  public starships: Starship[];
 
   constructor(hero: any) {
     this.name = hero.name;
@@ -21,8 +22,8 @@ export class Hero implements IHero {
     this.mass = parseFloat(hero.mass);
     this.homeworld = hero.homeworld;
     this.films = hero.films;
-    this.species = hero.species[0];
-    this.vehicles = hero.venichles;
+    this.species = hero.species;
+    this.vehicles = hero.vehicles;
     this.starships = hero.starships;
   }
 }
