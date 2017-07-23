@@ -20,9 +20,9 @@ export class ApiService {
   private baseUrl: string;
   private hero: Subject<Hero>;
   private hero$: Observable<Hero>;
-  private herosCount: number;
-  private _herosCount: ReplaySubject<number>;
-  private herosCount$: Observable<number>;
+  private heroesCount: number;
+  private _heroesCount: ReplaySubject<number>;
+  private heroesCount$: Observable<number>;
   private currentHero: number;
   private _currentHero: ReplaySubject<number>;
   private currentHero$: Observable<number>;
@@ -31,13 +31,12 @@ export class ApiService {
               private storage: StorageService) {
     this.baseUrl = environment.api.base;
 
-    this._herosCount = new ReplaySubject(1);
-    this.herosCount$ = this._herosCount.asObservable();
+    this._heroesCount = new ReplaySubject(1);
+    this.heroesCount$ = this._heroesCount.asObservable();
 
+    this.currentHero = this.storage.read().lastHero;
     this._currentHero = new ReplaySubject(1);
     this.currentHero$ = this._currentHero.asObservable();
-    this.currentHero = this.storage.read().lastHero;
-    this._currentHero.next(this.currentHero);
 
     this.hero = new Subject();
     this.hero$ = this.hero.asObservable();
@@ -52,9 +51,7 @@ export class ApiService {
   }
 
   public getHero(id): void {
-    if (this.herosCount && id > this.herosCount) {
-      return;
-    }
+    id = parseInt(id, 10);
 
     this.http.get(this.baseUrl + environment.api.people + id)
       .first()
@@ -98,27 +95,33 @@ export class ApiService {
         person => {
           const hero = new Hero(person);
           this.hero.next(hero);
+          this.currentHero = id;
           this.storage.write(id);
         },
         error => {
           console.error(error);
-          this.getHero(++id);
+
+          if (this.heroesCount && id > this.heroesCount) {
+            this._currentHero.next(this.currentHero);
+          } else {
+            this._currentHero.next(++id);
+          }
         }
       );
   }
 
   public getCount(): Observable<number> {
-    if (!this.herosCount) {
+    if (!this.heroesCount) {
       this.http.get(this.baseUrl + environment.api.people)
         .first()
         .map((response: Response) => response.json())
         .subscribe(data => {
-          this.herosCount = data.count;
-          this._herosCount.next(this.herosCount);
+          this.heroesCount = data.count;
+          this._heroesCount.next(this.heroesCount);
         });
     }
 
-    return this.herosCount$;
+    return this.heroesCount$;
   }
 
   private getPlanetByUrl(url): Observable<Planet> {
