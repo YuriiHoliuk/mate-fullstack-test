@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from './services';
-import {Observable} from 'rxjs/Observable';
-import {Hero} from './classes';
+import * as cssReset from '@eaze/css-reset';
 
 @Component({
   selector   : 'app-root',
@@ -9,11 +7,11 @@ import {Hero} from './classes';
   styleUrls  : ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private heroId: number;
 
-  constructor(private api: ApiService) {
+  constructor() {
   }
 
   ngOnInit() {
+    cssReset();
   }
 }

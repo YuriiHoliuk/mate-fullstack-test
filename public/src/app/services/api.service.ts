@@ -104,7 +104,9 @@ export class ApiService {
           if (this.heroesCount && id > this.heroesCount) {
             this._currentHero.next(this.currentHero);
           } else {
-            this._currentHero.next(++id);
+            this.currentHero < id
+              ? this._currentHero.next(++id)
+              : this._currentHero.next(--id);
           }
         }
       );

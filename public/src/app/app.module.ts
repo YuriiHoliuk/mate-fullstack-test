@@ -7,11 +7,17 @@ import {HttpModule} from '@angular/http';
 import { HeroesPageComponent } from './components';
 import {RouterModule} from '@angular/router';
 import {routes} from './routes';
+import { CardComponent } from './components/card/card.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeroesPageComponent
+    HeroesPageComponent,
+    CardComponent,
+    SpinnerComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

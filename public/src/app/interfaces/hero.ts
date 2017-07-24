@@ -3,7 +3,7 @@ import {IPlanet, ISpecies, IVehicle, IStarship, IFilm} from './';
 export interface IHero {
   name: string;
   gender: string;
-  birth_year: string;
+  birthYear: string;
   height: number;
   mass: number;
   homeworld: IPlanet;
