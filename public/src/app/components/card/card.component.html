@@ -1,0 +1,88 @@
+<div class="card">
+
+  <header class="card__header">
+
+    <div class="card__headline">
+      <h2 class="card__title">{{hero?.name}}</h2>
+      <p class="card__subtitle">{{hero?.species.name}}</p>
+    </div>
+
+    <app-spinner *ngIf="shouldShowSpinner"></app-spinner>
+  </header>
+
+  <section class="card__content">
+    <div class="card__section">
+      <h3 class="card__section-title">General</h3>
+
+      <div class="card__section-content">
+        <div class="card__item">
+          <span class="card__label">Gender</span>
+          <span class="card__value">{{hero?.gender}}</span>
+        </div>
+
+        <div class="card__item">
+          <span class="card__label">Height</span>
+          <span class="card__value">{{hero?.height}}</span>
+        </div>
+
+        <div class="card__item">
+          <span class="card__label">Mass</span>
+          <span class="card__value">{{hero?.mass}}</span>
+        </div>
+
+        <div class="card__item">
+          <span class="card__label">Home World</span>
+          <span class="card__value">{{hero?.homeworld.name}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card__section">
+      <h3 class="card__section-title">Vehicles</h3>
+
+      <div class="card__section-content">
+        <div *ngFor="let vehicle of hero?.vehicles; let i = index" class="card__item">
+          <span class="card__label">Vehicle {{i + 1}}</span>
+          <span class="card__value">{{vehicle.name}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card__section">
+      <h3 class="card__section-title">Starships</h3>
+
+      <div class="card__section-content">
+        <div *ngFor="let starship of hero?.starships; let i = index" class="card__item">
+          <span class="card__label">Starship {{i + 1}}</span>
+          <span class="card__value">{{starship.name}}</span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card__section">
+      <h3 class="card__section-title">Films</h3>
+
+      <div class="card__section-content">
+        <div *ngFor="let film of hero?.films" class="card__item">
+          <span class="card__label">Episode {{film.episodeId}}</span>
+          <span class="card__value">{{film.title}}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="card__footer">
+    <button
+      class="btn"
+      [disabled]="id === 1 || loading"
+      (click)="onClick(false)"
+    >Previous</button>
+
+    <button
+      class="btn"
+      [disabled]="id === count || loading"
+      (click)="onClick(true)"
+    >Next</button>
+  </footer>
+</div>

@@ -1,0 +1,54 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+
+  background-color: rgba(#000, .7);
+}
+
+.modal {
+  position: absolute;
+  top: 30px;
+  left: 50px;
+  right: 50px;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 400px;
+  padding: 40px 30px;
+
+  background-color: #fff;
+
+  &__title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  &__text {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+}
+
+.btn-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  display: block;
+  width: 20px;
+  height: 20px;
+
+  border: none;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

@@ -1,0 +1,28 @@
+<div class="page">
+  <button
+    class="btn btn--help"
+    (click)="openHelp()"
+  >Help
+  </button>
+  <button
+    class="navigate navigate--left"
+    [disabled]="loading || currentHero === 1"
+    (click)="handleClick(false)"
+  ><img class="navigate__icon" src="/assets/img/back.svg" alt="previous"></button>
+  <main class="content">
+    <app-card
+      [hero]="hero"
+      [count]="heroesCount"
+      [id]="currentHero"
+      [onClick]="handleClick"
+      [shouldShowSpinner]="loading"
+    ></app-card>
+  </main>
+  <button
+    class="navigate navigate--right"
+    [disabled]="loading || currentHero === heroesCount"
+    (click)="handleClick(true)"
+  ><img class="navigate__icon" src="/assets/img/next.svg" alt="next"></button>
+
+  <app-modal [close]="closeHelp" *ngIf="shouldShowHelp"></app-modal>
+</div>
