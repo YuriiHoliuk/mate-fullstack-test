@@ -75,13 +75,13 @@
   <footer class="card__footer">
     <button
       class="btn"
-      [disabled]="id === 1 || loading"
+      [disabled]="id === 1 || shouldShowSpinner"
       (click)="onClick(false)"
     >Previous</button>
 
     <button
       class="btn"
-      [disabled]="id === count || loading"
+      [disabled]="id === count || shouldShowSpinner"
       (click)="onClick(true)"
     >Next</button>
   </footer>

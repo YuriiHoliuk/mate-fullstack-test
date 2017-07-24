@@ -11,8 +11,8 @@ import {Hero} from '../../classes';
 })
 export class HeroesPageComponent implements OnInit {
 
-  private heroesCount: number;
-  private currentHero: number;
+  public heroesCount: number;
+  public currentHero: number;
   public loading: boolean;
   public shouldShowHelp: boolean;
 
