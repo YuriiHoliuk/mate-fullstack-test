@@ -63,7 +63,7 @@ export class ApiService {
   public getHero(id, cache = false): void {
     id = parseInt(id, 10);
 
-    if (!Number.isInteger(id) || this.heroesCount && id > this.heroesCount) {
+    if (!Number.isInteger(id) || id <= 0 || (this.heroesCount && id > this.heroesCount)) {
       return;
     }
 
