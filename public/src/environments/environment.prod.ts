@@ -12,5 +12,8 @@ export const environment = {
   localeStorage: {
     key: 'sw-api-data',
     timeout: 1000 * 60 * 60 * 24 * 3 // 3 days
+  },
+  cache: {
+    preload: 4
   }
 };

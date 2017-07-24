@@ -17,5 +17,8 @@ export const environment = {
   localeStorage: {
     key: 'swapi',
     timeout: 1000 * 20 // 20 seconds
+  },
+  cache: {
+    preload: 7
   }
 };

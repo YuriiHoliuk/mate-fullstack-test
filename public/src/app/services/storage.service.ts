@@ -20,7 +20,7 @@ export class StorageService {
     if (!data || now - data.timestamp > this.timeout) {
       return {lastHero: 1, newbie: true};
     } else {
-      return {lastHero: +data.lastHero, newbie: false}
+      return {lastHero: +data.lastHero, newbie: data.newbie};
     }
   }
 
@@ -28,5 +28,4 @@ export class StorageService {
     const value = {lastHero, newbie: false, timestamp: Date.now()};
     localStorage.setItem(this.key, JSON.stringify(value));
   }
-
 }

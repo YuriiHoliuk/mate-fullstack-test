@@ -74,6 +74,5 @@ export class HeroesPageComponent implements OnInit {
 
   public closeHelp() {
     this.shouldShowHelp = false;
-    console.log('called');
   }
 }

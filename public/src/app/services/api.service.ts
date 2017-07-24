@@ -27,6 +27,11 @@ export class ApiService {
   private _currentHero: ReplaySubject<number>;
   private currentHero$: Observable<number>;
 
+  private cache: any;
+  private cachePreload: number;
+
+  private skip: any;
+
   constructor(private http: HttpService,
               private storage: StorageService) {
     this.baseUrl = environment.api.base;
@@ -40,6 +45,11 @@ export class ApiService {
 
     this.hero = new Subject();
     this.hero$ = this.hero.asObservable();
+
+    this.cache = {};
+    this.cachePreload = environment.cache.preload;
+
+    this.skip = {};
   }
 
   public subscribeHero(): Observable<Hero> {
@@ -50,8 +60,32 @@ export class ApiService {
     return this.currentHero$;
   }
 
-  public getHero(id): void {
+  public getHero(id, cache = false): void {
     id = parseInt(id, 10);
+
+    if (!Number.isInteger(id) || this.heroesCount && id > this.heroesCount) {
+      return;
+    }
+
+    if ((cache && this.cache[id]) || (cache && this.skip[id])) {
+      return;
+    }
+
+    if (!cache && this.cache[id]) {
+      this.hero.next(this.cache[id]);
+      this.currentHero = id;
+      this.storage.write(id);
+
+      this.preload(id);
+
+      return;
+    }
+
+    if (!cache && this.skip[id]) {
+      this.currentHero < id
+        ? this._currentHero.next(++id)
+        : this._currentHero.next(--id);
+    }
 
     this.http.get(this.baseUrl + environment.api.people + id)
       .first()
@@ -93,23 +127,56 @@ export class ApiService {
       })
       .subscribe(
         person => {
-          const hero = new Hero(person);
-          this.hero.next(hero);
-          this.currentHero = id;
-          this.storage.write(id);
+          cache
+            ? this.onNextCache(person, id)
+            : this.onNext(person, id);
         },
         error => {
-          console.error(error);
-
-          if (this.heroesCount && id > this.heroesCount) {
-            this._currentHero.next(this.currentHero);
-          } else {
-            this.currentHero < id
-              ? this._currentHero.next(++id)
-              : this._currentHero.next(--id);
-          }
+          cache
+            ? this.onErrorCache(error, id)
+            : this.onError(error, id);
         }
       );
+  }
+
+  private onNext(person, id) {
+    const hero = new Hero(person);
+    this.hero.next(hero);
+    this.cache[id] = hero;
+    this.currentHero = id;
+    this.storage.write(id);
+
+    this.preload(id);
+  }
+
+  private preload(id) {
+    for (let i = 1; i <= this.cachePreload; i++) {
+      this.getHero(id + i, true);
+      this.getHero(id - i, true);
+    }
+  }
+
+  private onNextCache(person, id) {
+    const hero = new Hero(person);
+    this.cache[id] = hero;
+  }
+
+  private onError(error, id) {
+    console.error(error);
+    this.skip[id] = true;
+
+    if (this.heroesCount && id > this.heroesCount) {
+      this._currentHero.next(this.currentHero);
+    } else {
+      this.currentHero < id
+        ? this._currentHero.next(++id)
+        : this._currentHero.next(--id);
+    }
+  }
+
+  private onErrorCache(error, id) {
+    console.error(error);
+    this.skip[id] = true;
   }
 
   public getCount(): Observable<number> {
@@ -133,9 +200,13 @@ export class ApiService {
   }
 
   private getSpeciesByUrl(url): Observable<Species> {
-    return this.http.get(url)
-      .first()
-      .map((response: Response) => new Species(response.json()));
+    if (!url) {
+      return Observable.of({name: 'unknown'});
+    } else {
+      return this.http.get(url)
+        .first()
+        .map((response: Response) => new Species(response.json()));
+    }
   }
 
   private getVehicleByUrl(url): Observable<Vehicle> {
